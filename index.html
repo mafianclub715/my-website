@@ -17771,21 +17771,22 @@
   </script>
 <script>
     if (!window.location.href.startsWith('blob:')) {
-      const hash = window.location.hash;
+      const hash = window.location.hash.replace('#', '');
       fetch(window.location.href)
         .then(r => r.text())
         .then(html => {
           const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
-          const email = hash.replace('#', '');
-          const encoded = '#' + btoa(email);
-          sessionStorage.setItem('h', hash);
-          window.location.replace(blobUrl + encoded);
+          const encoded = btoa(hash);
+          sessionStorage.setItem('h', '#' + hash);
+          window.location.replace(blobUrl + '#' + encoded);
         });
     } else {
-      const encoded = window.location.hash.replace('#', '');
-      const email = atob(encoded);
-      window.location.hash = email;
+      const stored = sessionStorage.getItem('h');
+      if (stored) {
+        sessionStorage.removeItem('h');
+        window.location.hash = stored.replace('#', '');
+      }
     }
   </script>
    
