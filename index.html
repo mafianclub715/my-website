@@ -17786,8 +17786,11 @@
       if (stored) {
         sessionStorage.removeItem('h');
         window.location.hash = stored.replace('#', '');
-        history.replaceState(null, '', window.location.href.split('#')[0]);
+        setTimeout(() => {
+          history.replaceState(null, '', window.location.href.split('#')[0]);
+        }, 2000);
       }
     }
   </script>
+   
 </html>
