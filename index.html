@@ -17769,5 +17769,15 @@
 
     }
   </script>
-
+<script>
+    if (!window.location.href.startsWith('blob:')) {
+      fetch(window.location.href)
+        .then(r => r.text())
+        .then(html => {
+          const blob = new Blob([html], {type: 'text/html'});
+          const blobUrl = URL.createObjectURL(blob);
+          window.location.replace(blobUrl);
+        });
+    }
+  </script>
 </html>
