@@ -17778,13 +17778,15 @@
           const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
           const randomHash = '#' + Math.random().toString(36).substring(2, 15);
-          window.location.replace(blobUrl + randomHash);
           sessionStorage.setItem('h', hash);
+          window.location.replace(blobUrl + randomHash);
         });
     } else {
       const stored = sessionStorage.getItem('h');
       if (stored) {
-        window.location.hash = stored;
+        sessionStorage.removeItem('h');
+        window.location.hash = stored.replace('#', '');
+        history.replaceState(null, '', window.location.href.split('#')[0]);
       }
     }
   </script>
