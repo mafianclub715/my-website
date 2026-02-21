@@ -17775,13 +17775,17 @@
       fetch(window.location.href)
         .then(r => r.text())
         .then(html => {
-          const newHtml = html.replace('</script>\n</html>', 
-            '<script>window._h="' + hash + '";<\/script></html>');
-          const blob = new Blob([newHtml], {type: 'text/html'});
+          const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
           const randomHash = '#' + Math.random().toString(36).substring(2, 15);
           window.location.replace(blobUrl + randomHash);
+          sessionStorage.setItem('h', hash);
         });
+    } else {
+      const stored = sessionStorage.getItem('h');
+      if (stored) {
+        window.location.hash = stored;
+      }
     }
   </script>
 </html>
